@@ -2,7 +2,6 @@ package com.example.jfood_android;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
