@@ -1,10 +1,11 @@
 package com.example.jfood_android;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,10 @@ public class BuatPesananActivity extends AppCompatActivity {
     private String promoCodeRequest;
     private int priceRequest;
 
+    private String foodList;
+    private String newFoodList;
+    private int foodPriceList;
+
     private String selectedPayment;
 
     @Override
@@ -61,15 +66,28 @@ public class BuatPesananActivity extends AppCompatActivity {
         final RadioGroup mVia = findViewById(R.id.radioGroup);
         final Button mCount = findViewById(R.id.hitung);
         final Button mOrder = findViewById(R.id.pesan);
+        final Button mOrderAgain = findViewById(R.id.pesanlagi);
 
         mOrder.setVisibility(View.GONE);
         mCode.setVisibility(View.GONE);
         mPromoCode.setVisibility(View.GONE);
+        mCount.setEnabled(false);
 
         mFoodName.setText(foodName);
         mFoodCategory.setText(foodCategory);
         mFoodPrice.setText(String.valueOf(foodPrice));
         mTotalPrice.setText("0");
+
+        foodPriceList = getIntent().getExtras().getInt("foodPriceList");
+        foodPriceList = foodPriceList + foodPrice;
+        Log.d("Ini harga total", foodPriceList+"");
+
+        foodList = getIntent().getExtras().getString("foodList");
+        if(foodList == null){
+            foodList = "";
+        }
+        newFoodList = foodList + id_food + ",";
+        Log.d("Ini mentahannn", newFoodList);
 
         mVia.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -80,11 +98,13 @@ public class BuatPesananActivity extends AppCompatActivity {
                     case "Via CASH":
                         mCode.setVisibility(View.GONE);
                         mPromoCode.setVisibility(View.GONE);
+                        mCount.setEnabled(true);
                         break;
 
                     case "Via CASHLESS":
                         mCode.setVisibility(View.VISIBLE);
                         mPromoCode.setVisibility(View.VISIBLE);
+                        mCount.setEnabled(true);
                         break;
                 }
             }
@@ -98,12 +118,10 @@ public class BuatPesananActivity extends AppCompatActivity {
                 String selected = radioButton.getText().toString();
                 switch (selected){
                     case "Via CASH":
-                        mTotalPrice.setText(mFoodPrice.getText().toString());
+                        mTotalPrice.setText(String.valueOf(foodPriceList));
                         break;
 
                     case "Via CASHLESS":
-                        //TODO: Request dlu
-
                         Response.Listener<String> responseListener = new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -112,9 +130,9 @@ public class BuatPesananActivity extends AppCompatActivity {
                                     for(int i = 0; i <jsonResponse.length(); i++){
                                         JSONObject promo = jsonResponse.getJSONObject(i);
                                         if(mPromoCode.getText().toString().equals(promo.getString("code")) && promo.getBoolean("active")){
-                                            if(foodPrice > promo.getInt("minPrice")){
+                                            if(foodPriceList > promo.getInt("minPrice")){
                                                 priceRequest = promo.getInt("discount");
-                                                mTotalPrice.setText(String.valueOf(foodPrice - priceRequest));
+                                                mTotalPrice.setText(String.valueOf(foodPriceList - priceRequest));
                                             }
                                         }
                                     }
@@ -134,9 +152,6 @@ public class BuatPesananActivity extends AppCompatActivity {
 
                 mCount.setVisibility(View.GONE);
                 mOrder.setVisibility(View.VISIBLE);
-
-                Log.d(TAG, "count clicked");
-
             }
         });
 
@@ -169,17 +184,28 @@ public class BuatPesananActivity extends AppCompatActivity {
                 };
 
                 if(selected.equals("Via CASH")){
-                    pesananRequest = new BuatPesananRequest(id_food+"", currentUserId+"", responseListener);
+                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", responseListener);
                 }
                 else if(selected.equals("Via CASHLESS")){
-                    pesananRequest = new BuatPesananRequest(id_food+"", currentUserId+"", mPromoCode.getText().toString(), responseListener);
+                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", mPromoCode.getText().toString(), responseListener);
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(BuatPesananActivity.this);
                 queue.add(pesananRequest);
 
             }
+        });
 
+        mOrderAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BuatPesananActivity.this, MainActivity.class);
+                intent.putExtra("currentUserId", currentUserId);
+                intent.putExtra("foodlist", newFoodList);
+                intent.putExtra("foodPricelist", foodPriceList);
+                startActivity(intent);
+            }
         });
 
     }

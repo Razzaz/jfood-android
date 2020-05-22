@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -26,11 +27,16 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     private ArrayList<Seller> listSeller = new ArrayList<>();
     private ArrayList<Food> foodIdList = new ArrayList<>();
     private HashMap<Seller, ArrayList<Food>> childMapping = new HashMap<>();
+
+    private String foodlist;
+    private int foodPriceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final int currentUserId = getIntent().getExtras().getInt("currentUserId");
+        foodlist = getIntent().getExtras().getString("foodlist");
+        foodPriceList = getIntent().getExtras().getInt("foodPricelist");
+
+        Log.d(TAG, "iniiii woy "+ foodlist);
 
         refreshList();
 
@@ -57,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, BuatPesananActivity.class);
                 intent.putExtra("currentUserId", currentUserId);
+                intent.putExtra("foodList", foodlist);
+                intent.putExtra("foodPriceList", foodPriceList);
                 intent.putExtra("id_food", childMapping.get(listSeller.get(i)).get(i1).getId());
                 intent.putExtra("foodName", childMapping.get(listSeller.get(i)).get(i1).getName());
                 intent.putExtra("foodCategory", childMapping.get(listSeller.get(i)).get(i1).getCategory());

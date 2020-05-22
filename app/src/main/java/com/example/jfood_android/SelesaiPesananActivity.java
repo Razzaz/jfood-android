@@ -40,7 +40,6 @@ public class SelesaiPesananActivity extends AppCompatActivity {
         final TextView total_biaya = findViewById(R.id.total_biaya);
         final TextView status_invoice = findViewById(R.id.status_invoice);
 
-
         findViewById(R.id.selesai_pesanan).setVisibility(View.GONE);
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
