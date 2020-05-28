@@ -1,6 +1,9 @@
 package com.example.jfood_android;
 
-public class Location {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Location implements Parcelable {
 
     private String province;
     private String description;
@@ -11,6 +14,24 @@ public class Location {
         this.city = city;
         this.description = description;
     }
+
+    protected Location(Parcel in) {
+        province = in.readString();
+        description = in.readString();
+        city = in.readString();
+    }
+
+    public static final Creator<Location> CREATOR = new Creator<Location>() {
+        @Override
+        public Location createFromParcel(Parcel in) {
+            return new Location(in);
+        }
+
+        @Override
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
 
     public String getProvince(){
         return province;
@@ -44,5 +65,17 @@ public class Location {
                 "\nCity          : " + city +
                 "\nDescription   : " + description +
                 "\n==========================================";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(province);
+        parcel.writeString(description);
+        parcel.writeString(city);
     }
 }

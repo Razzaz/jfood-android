@@ -2,44 +2,85 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="40dp"
+    android:background="#FFFF"
     tools:context=".LoginActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="379dp"
+        android:layout_height="637dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_sign" />
 
-        <EditText
-            android:id="@+id/login_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="email"/>
+    <EditText
+        android:id="@+id/login_email"
+        android:layout_width="192dp"
+        android:layout_height="47dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="@font/circularstdmedium"
+        android:inputType="textEmailAddress"
+        android:hint="email"
+        android:textColor="#A6BCD0"
+        android:textColorHint="#A6BCD0"
+        android:textColorLink="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintEnd_toEndOf="@+id/imageView11"
+        app:layout_constraintHorizontal_bias="0.614"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:layout_constraintVertical_bias="0.376" />
 
-        <EditText
-            android:id="@+id/login_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="password"/>
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="192dp"
+        android:layout_height="47dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="@font/circularstdmedium"
+        android:inputType="textPassword"
+        android:hint="password"
+        android:textColorHint="#A6BCD0"
+        android:textColor="#A6BCD0"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintEnd_toEndOf="@+id/imageView11"
+        app:layout_constraintHorizontal_bias="0.614"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:layout_constraintVertical_bias="0.476" />
 
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"/>
+    <TextView
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/circularstdbold"
+        android:text="Sign In"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@id/imageView11"
+        app:layout_constraintEnd_toEndOf="@id/imageView11"
+        app:layout_constraintStart_toStartOf="@id/imageView11"
+        app:layout_constraintTop_toTopOf="@id/imageView11"
+        app:layout_constraintVertical_bias="0.805" />
 
-        <TextView
-            android:id="@+id/login_register"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register Now"/>
-
-    </LinearLayout>
-
-
+    <TextView
+        android:id="@+id/login_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/circularstdbold"
+        android:text="Create Account"
+        android:textColor="#A6BCD0"
+        app:layout_constraintEnd_toEndOf="@+id/imageView11"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

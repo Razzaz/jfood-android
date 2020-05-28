@@ -1,6 +1,11 @@
 package com.example.jfood_android;
 
-public class Food {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Food implements Parcelable{
 
     private int id;
     private String name;
@@ -15,6 +20,26 @@ public class Food {
         this.category = category;
         this.seller = seller;
     }
+
+    protected Food(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        price = in.readInt();
+        category = in.readString();
+        seller = in.readParcelable(Seller.class.getClassLoader());
+    }
+
+    public static final Creator<Food> CREATOR = new Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -66,5 +91,19 @@ public class Food {
                 "\nCategory   : " + category +
                 "\nSeller      : " + seller +
                 "\n==========================================";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeInt(price);
+        parcel.writeString(category);
+        parcel.writeParcelable(seller, i);
     }
 }

@@ -1,10 +1,8 @@
 package com.example.jfood_android;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -166,14 +164,13 @@ public class BuatPesananActivity extends AppCompatActivity {
 
                 Log.d(TAG, selected);
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                Response.Listener<String> responseListenerOrder = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (response != null){
                                 Toast.makeText(BuatPesananActivity.this, "Order successful", Toast.LENGTH_SHORT).show();
-
                             }
                         } catch (JSONException e) {
                             Toast.makeText(BuatPesananActivity.this, "Order failed", Toast.LENGTH_SHORT).show();
@@ -184,10 +181,10 @@ public class BuatPesananActivity extends AppCompatActivity {
                 };
 
                 if(selected.equals("Via CASH")){
-                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", responseListener);
+                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", responseListenerOrder);
                 }
                 else if(selected.equals("Via CASHLESS")){
-                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", mPromoCode.getText().toString(), responseListener);
+                    pesananRequest = new BuatPesananRequest(newFoodList.substring(0, newFoodList.length()-1), currentUserId+"", mPromoCode.getText().toString(), responseListenerOrder);
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(BuatPesananActivity.this);
@@ -205,6 +202,7 @@ public class BuatPesananActivity extends AppCompatActivity {
                 intent.putExtra("foodlist", newFoodList);
                 intent.putExtra("foodPricelist", foodPriceList);
                 startActivity(intent);
+
             }
         });
 

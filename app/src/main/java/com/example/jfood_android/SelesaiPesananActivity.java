@@ -2,11 +2,9 @@ package com.example.jfood_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class SelesaiPesananActivity extends AppCompatActivity {
 
@@ -40,20 +37,14 @@ public class SelesaiPesananActivity extends AppCompatActivity {
         final TextView total_biaya = findViewById(R.id.total_biaya);
         final TextView status_invoice = findViewById(R.id.status_invoice);
 
-        findViewById(R.id.selesai_pesanan).setVisibility(View.GONE);
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-
-                    findViewById(R.id.selesai_pesanan).setVisibility(View.VISIBLE);
                     JSONArray jsonResponse = new JSONArray(response);
                     JSONObject invoice = jsonResponse.getJSONObject(jsonResponse.length()-1);
-                    Log.d(TAG, String.valueOf(invoice));
                     JSONObject food = invoice.getJSONArray("foods").getJSONObject(0);
-                    Log.d(TAG, food.getString("name"));
                     JSONObject customer = invoice.getJSONObject("customer");
-                    Log.d(TAG, String.valueOf(customer));
 
                     invoiceId = invoice.getInt("id");
 
@@ -66,7 +57,7 @@ public class SelesaiPesananActivity extends AppCompatActivity {
 
                 }
                 catch (JSONException e){
-                    startActivity(new Intent(SelesaiPesananActivity.this, MainActivity.class));
+                    //startActivity(new Intent(SelesaiPesananActivity.this, MainActivity.class));
                     Log.d(TAG, "Load data failed.");
                 }
             }
@@ -90,7 +81,6 @@ public class SelesaiPesananActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(SelesaiPesananActivity.this, "Invoice change failed", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 };
 

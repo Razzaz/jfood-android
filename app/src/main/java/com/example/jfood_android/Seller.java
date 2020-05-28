@@ -1,6 +1,9 @@
 package com.example.jfood_android;
 
-public class Seller {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Seller implements Parcelable {
 
     private int id;
     private String name;
@@ -15,6 +18,25 @@ public class Seller {
         this.phoneNumber = phoneNumber;
         this.location = location;
     }
+
+    protected Seller(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        email = in.readString();
+        phoneNumber = in.readString();
+    }
+
+    public static final Creator<Seller> CREATOR = new Creator<Seller>() {
+        @Override
+        public Seller createFromParcel(Parcel in) {
+            return new Seller(in);
+        }
+
+        @Override
+        public Seller[] newArray(int size) {
+            return new Seller[size];
+        }
+    };
 
     public int getId(){
         return id;
@@ -66,5 +88,18 @@ public class Seller {
                 "\nPhone   : " + phoneNumber +
                 "\nLocation      : " + location +
                 "\n==========================================";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(email);
+        parcel.writeString(phoneNumber);
     }
 }

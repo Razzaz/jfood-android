@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     protected void refreshList() {
@@ -138,8 +137,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         childMapping.put(sellerPtr, tempFoodList);
                     }
+
                     listAdapter = new MainListAdapter(MainActivity.this, listSeller, childMapping);
                     expListView.setAdapter(listAdapter);
+
                 }
                 catch (JSONException e) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
