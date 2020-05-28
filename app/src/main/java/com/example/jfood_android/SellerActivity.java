@@ -13,12 +13,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +46,10 @@ public class SellerActivity extends AppCompatActivity {
     public static ArrayList<Food> tempFoodList = new ArrayList<>();
 
     private HashMap<Seller, ArrayList<Food>> foodMapping = new HashMap<>();
+
+    private FloatingActionButton fabHome, fabCart, fabProfile;
+    private Animation fabOpen, fabClose, fabClockwise, fabAntiClockwise;
+    private boolean isOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,40 @@ public class SellerActivity extends AppCompatActivity {
             }
         });
 
+        fabHome = findViewById(R.id.fab_home);
+        fabProfile = findViewById(R.id.fab_profile);
+        fabCart = findViewById(R.id.fab_cart);
+
+        fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        fabClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+        fabAntiClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
+
+        fabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOpen){
+                    fabHome.startAnimation(fabClockwise);
+                    fabProfile.startAnimation(fabClose);
+                    fabCart.startAnimation(fabClose);
+
+                    fabCart.setClickable(false);
+                    fabProfile.setClickable(false);
+
+                    isOpen = false;
+                }
+                else{
+                    fabHome.startAnimation(fabAntiClockwise);
+                    fabProfile.startAnimation(fabOpen);
+                    fabCart.startAnimation(fabOpen);
+
+                    fabCart.setClickable(true);
+                    fabProfile.setClickable(true);
+
+                    isOpen = true;
+                }
+            }
+        });
     }
 
     private void filter(String text){
@@ -138,9 +179,8 @@ public class SellerActivity extends AppCompatActivity {
                         }
                     }
 
-                    //TODO
                     for(Seller sellerPtr : listSeller){
-                        exampleList.add(listSeller.indexOf(sellerPtr), new SellerItem(R.drawable.ic_android, sellerPtr.getName()+"", "Line 2"));
+                        exampleList.add(listSeller.indexOf(sellerPtr), new SellerItem(R.drawable.seller_icon, sellerPtr.getName()+"", sellerPtr.getLocation().getCity()+""));
                         mAdapter.notifyItemInserted(listSeller.indexOf(sellerPtr));
 
                         tempFoodList = new ArrayList<>();
@@ -170,9 +210,24 @@ public class SellerActivity extends AppCompatActivity {
     private void createExampleList(){
 
         for(Seller sellerPtr : listSeller){
-            exampleList.add(new SellerItem(R.drawable.ic_android, sellerPtr.getName(), "Line 2"));
+            exampleList.add(new SellerItem(R.drawable.seller_icon, sellerPtr.getName(), "Line 2"));
             Log.d("INIIII", sellerPtr.getName());
         }
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
+        exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
     }
 
     private void buildExampleList(){
@@ -193,6 +248,8 @@ public class SellerActivity extends AppCompatActivity {
                 Log.d(TAG, String.valueOf(newFood));
                 Intent intent = new Intent(SellerActivity.this, FoodActivity.class);
                 intent.putParcelableArrayListExtra("ListFoodData", newFood);
+                intent.putExtra("sellerName", listSeller.get(position).getName());
+                intent.putExtra("sellerDescription", listSeller.get(position).getLocation());
                 startActivity(intent);
 
             }

@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setTransparentStatusBarOnly(LoginActivity.this);
         try
         {
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         catch (NullPointerException ignored){}
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         final EditText etEmail = findViewById(R.id.login_email);
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     public void setTransparentStatusBarOnly(Activity activity) {

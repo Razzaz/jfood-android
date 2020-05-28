@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_sign" />
+        app:srcCompat="@drawable/ic_sign"/>
 
     <EditText
         android:id="@+id/login_email"
@@ -38,7 +38,7 @@
         app:layout_constraintHorizontal_bias="0.614"
         app:layout_constraintStart_toStartOf="@+id/imageView11"
         app:layout_constraintTop_toTopOf="@+id/imageView11"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintVertical_bias="0.376"/>
 
     <EditText
         android:id="@+id/login_password"
@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="@id/imageView11"
         app:layout_constraintStart_toStartOf="@id/imageView11"
         app:layout_constraintTop_toTopOf="@id/imageView11"
-        app:layout_constraintVertical_bias="0.805" />
+        app:layout_constraintVertical_bias="0.805"/>
 
     <TextView
         android:id="@+id/login_register"

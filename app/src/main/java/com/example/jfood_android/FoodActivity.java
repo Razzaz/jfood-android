@@ -7,14 +7,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.SnackbarContentLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FoodActivity extends AppCompatActivity {
+public class FoodActivity extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
 
     private static final String TAG = "FoodActivity";
 
@@ -38,16 +46,53 @@ public class FoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food);
 
         listFood = getIntent().getParcelableArrayListExtra("ListFoodData");
+        String sellerName = getIntent().getStringExtra("sellerName");
+        String sellerDescription = getIntent().getStringExtra("sellerDescription");
+
+        TextView seller = findViewById(R.id.textView4);
+        TextView description = findViewById(R.id.textView5);
+        seller.setText(sellerName);
+        description.setText("Verified Merchant");
 
         createExampleList();
         buildExampleList();
 
+        EditText editText = findViewById(R.id.edittext);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+
+    }
+
+    private void filter(String text){
+        ArrayList<FoodItem> filterList = new ArrayList<>();
+
+        for (FoodItem item : exampleList){
+            if(item.getText1().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(item);
+            }
+        }
+
+        mAdapter.filterList(filterList);
     }
 
     private void createExampleList(){
 
         for(Food foodPtr : listFood){
-            exampleList.add(new FoodItem(R.drawable.ic_android, foodPtr.getName()+"", foodPtr.getPrice()+""));
+            exampleList.add(new FoodItem(R.drawable.food_icon, foodPtr.getName()+"", "Rp. "+foodPtr.getPrice()));
             Log.d("INIIII", foodPtr.getName());
         }
     }
@@ -64,8 +109,9 @@ public class FoodActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                basketList.add(listFood.get(position).getId());
-
+                //basketList.add(listFood.get(position).getId());
+                BottomSheetDialog bottomSheet = new BottomSheetDialog();
+                bottomSheet.show(getSupportFragmentManager(), "exampleBottomSheet");
             }
         });
 
@@ -73,6 +119,12 @@ public class FoodActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onButtonClicked(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
 
     public void setTransparentStatusBarOnly(Activity activity) {
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
