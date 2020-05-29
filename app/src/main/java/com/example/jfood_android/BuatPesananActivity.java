@@ -133,6 +133,9 @@ public class BuatPesananActivity extends AppCompatActivity {
                                                 mTotalPrice.setText(String.valueOf(foodPriceList - priceRequest));
                                             }
                                         }
+                                        else{
+                                            mTotalPrice.setText(String.valueOf(foodPriceList));
+                                        }
                                     }
                                 }
                                 catch (JSONException e){

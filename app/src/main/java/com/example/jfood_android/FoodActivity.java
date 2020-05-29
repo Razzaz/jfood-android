@@ -132,6 +132,7 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
     @Override
     public void onButtonClicked(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+
     }
 
 
