@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -72,6 +73,14 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
+            }
+        });
+
+        TextView ViewBasket = findViewById(R.id.view_basket);
+        ViewBasket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FoodActivity.this, BasketActivity.class));
             }
         });
 

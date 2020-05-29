@@ -43,7 +43,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="293dp"
-        android:layout_height="422dp"
+        android:layout_height="375dp"
         android:layout_below="@+id/edittext"
         android:layout_marginTop="64dp"
         android:padding="0dp"
@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView11"
         app:layout_constraintStart_toStartOf="@+id/imageView11"
         app:layout_constraintTop_toTopOf="@+id/imageView11"
-        app:layout_constraintVertical_bias="0.927" />
+        app:layout_constraintVertical_bias="0.671" />
 
     <TextView
         android:id="@+id/textView4"
@@ -92,5 +92,18 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/shopping" />
+
+    <TextView
+        android:id="@+id/view_basket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Basket"
+        android:textColor="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintEnd_toEndOf="@+id/imageView11"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:layout_constraintVertical_bias="0.97" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
