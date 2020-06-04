@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ExampleViewHolder> {
-
-    private static final String TAG = "BasketAdapter";
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ExampleViewHolder> {
 
     private OnItemClickListener mListener;
 
-    private ArrayList<BasketItem> mExampleList;
+    private ArrayList<HistoryItem> mExampleList;
+
+    private static final String TAG = "HistoryAdapter";
 
     public interface OnItemClickListener{
         void onItemClick(int position);
-        void onDeleteClick(int position);
-        void onAmountClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -30,18 +28,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ExampleVie
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTextView0;
+        public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
-        public ImageView mDelete;
-        public TextView mAmount;
 
         public ExampleViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mTextView0 = itemView.findViewById(R.id.imageView);
+            mImageView = itemView.findViewById(R.id.imageView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
-            mDelete = itemView.findViewById(R.id.imageView2);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,48 +50,24 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ExampleVie
                 }
             });
 
-            mDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });
-
-            mTextView0.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onAmountClick(position);
-                        }
-                    }
-                }
-            });
-
         }
     }
 
-    public BasketAdapter(ArrayList<BasketItem> exampleList) {
+    public HistoryAdapter(ArrayList<HistoryItem> exampleList) {
         mExampleList = exampleList;
     }
 
     @Override
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.basket_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item, parent, false);
         ExampleViewHolder evh = new ExampleViewHolder(v, mListener);
         return evh;
     }
 
     @Override
-    public void onBindViewHolder(ExampleViewHolder holder, int position) {
-        BasketItem currentItem = mExampleList.get(position);
-        holder.mTextView0.setText(currentItem.getText0());
+    public void onBindViewHolder(ExampleViewHolder holder, final int position) {
+        HistoryItem currentItem = mExampleList.get(position);
+        holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView2.setText(currentItem.getText2());
     }
@@ -106,9 +77,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ExampleVie
         return mExampleList.size();
     }
 
-    public void filterList(ArrayList<BasketItem> filteredList){
+    public void filterList(ArrayList<HistoryItem> filteredList){
         mExampleList = filteredList;
         notifyDataSetChanged();
     }
-
 }

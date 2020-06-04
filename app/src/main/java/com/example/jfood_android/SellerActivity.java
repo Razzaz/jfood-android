@@ -118,13 +118,27 @@ public class SellerActivity extends AppCompatActivity {
                 }
             }
         });
+
+        fabProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerActivity.this, ProfileActivity.class));
+            }
+        });
+
+        fabCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerActivity.this, HistoryActivity.class));
+            }
+        });
     }
 
     private void filter(String text){
         ArrayList<SellerItem> filterList = new ArrayList<>();
 
         for (SellerItem item : exampleList){
-            if(item.getText1().toLowerCase().contains(text.toLowerCase())){
+            if(item.getText1().toLowerCase().contains(text.toLowerCase()) || item.getText2().toLowerCase().contains((text.toLowerCase()))){
                 filterList.add(item);
             }
         }
@@ -209,10 +223,6 @@ public class SellerActivity extends AppCompatActivity {
 
     private void createExampleList(){
 
-        for(Seller sellerPtr : listSeller){
-            exampleList.add(new SellerItem(R.drawable.seller_icon, sellerPtr.getName(), "Line 2"));
-            Log.d("INIIII", sellerPtr.getName());
-        }
         exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
         exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
         exampleList.add(new SellerItem(R.drawable.seller_icon, "Starbucks", "Harmony"));
@@ -234,7 +244,6 @@ public class SellerActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        //todo tambahin sama child mapping di adapter seller
         mAdapter = new SellerAdapter(exampleList, listSeller, foodMapping);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -251,7 +260,7 @@ public class SellerActivity extends AppCompatActivity {
                 intent.putExtra("sellerName", listSeller.get(position).getName());
                 intent.putExtra("sellerDescription", listSeller.get(position).getLocation());
                 startActivity(intent);
-
+                finish();
             }
         });
 
@@ -263,6 +272,11 @@ public class SellerActivity extends AppCompatActivity {
         activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
         // this lines ensure only the status-bar to become transparent without affecting the nav-bar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
 }

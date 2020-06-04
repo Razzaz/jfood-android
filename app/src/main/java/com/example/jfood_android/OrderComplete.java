@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +11,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.util.Objects;
-
-import static com.example.jfood_android.LoginActivity.SHARED_PREFS;
-import static com.example.jfood_android.LoginActivity.loginState;
 
 public class OrderComplete extends AppCompatActivity {
 
@@ -35,7 +31,7 @@ public class OrderComplete extends AppCompatActivity {
                 startActivity(new Intent(OrderComplete.this, SellerActivity.class));
                 finish();
             }
-        }, 3000);
+        }, 3500);
     }
 
     public void setTransparentStatusBarOnly(Activity activity) {

@@ -25,14 +25,14 @@ public class BasketSheetDialog extends BottomSheetDialogFragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onButtonClicked(editText.getText().toString());
+                mListener.onButtonAddClicked(editText.getText().toString());
                 dismiss();
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onButtonClicked("Button 2 clicked");
+                mListener.onButtonAddClicked("Button 2 clicked");
                 dismiss();
             }
         });
@@ -40,7 +40,7 @@ public class BasketSheetDialog extends BottomSheetDialogFragment {
     }
 
     public interface BottomSheetListener {
-        void onButtonClicked(String text);
+        void onButtonAddClicked(String text);
     }
 
     @Override

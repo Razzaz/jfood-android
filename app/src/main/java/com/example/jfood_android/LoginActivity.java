@@ -26,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String loginState = "loginState";
+    public static final String userState = "userState";
+    public static final String userStateName = "userStateName";
+    public static final String userStateEmail = "userStateEmail";
+    public static final String userStateDate = "userStateDate";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +65,15 @@ public class LoginActivity extends AppCompatActivity {
 
                                 SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putInt(userState, jsonObject.getInt("id"));
+                                editor.putString(userStateName, jsonObject.getString("name"));
+                                editor.putString(userStateEmail, jsonObject.getString("email"));
+                                editor.putString(userStateDate, jsonObject.getString("joinDate"));
                                 editor.putBoolean(loginState, true);
                                 editor.apply();
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("currentUserId", jsonObject.getInt("id"));
+                                Intent intent = new Intent(LoginActivity.this, SellerActivity.class);
+                                //intent.putExtra("currentUserId", jsonObject.getInt("id"));
                                 startActivity(intent);
                                 finish();
                             }
