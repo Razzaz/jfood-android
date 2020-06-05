@@ -24,7 +24,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SelesaiPesananActivity" />
         <activity android:name=".BuatPesananActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".IntroActivity">
             <intent-filter>

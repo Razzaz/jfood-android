@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
 
     private ArrayList<Integer> keySet = new ArrayList<>();
     private HashMap<Integer, Integer> foodIdAndAmount = new HashMap<>();
+    private HashMap<Integer, Integer> foodIdKey = new HashMap<>();
     private HashMap<Integer, String> foodIdAndName = new HashMap<>();
     private HashMap<Integer, String> foodIdAndCategory = new HashMap<>();
     private HashMap<Integer, Integer> foodIdAndPrice = new HashMap<>();
@@ -81,13 +83,13 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
         listFood = getIntent().getParcelableArrayListExtra("listFood");
         sellerName = getIntent().getStringExtra("sellerName");
 
+        foodIdKey = (HashMap<Integer, Integer>) getIntent().getSerializableExtra("foodIdKey");
         foodIdAndAmount = (HashMap<Integer, Integer>) getIntent().getSerializableExtra("foodIdAndAmount");
         foodIdAndName = (HashMap<Integer, String>) getIntent().getSerializableExtra("foodIdAndName");
         foodIdAndCategory = (HashMap<Integer, String>) getIntent().getSerializableExtra("foodIdAndCategory");
         foodIdAndPrice = (HashMap<Integer, Integer>) getIntent().getSerializableExtra("foodIdAndPrice");
 
-        Log.d(TAG, String.valueOf(foodIdAndAmount));
-        Log.d(TAG, String.valueOf(foodIdAndPrice));
+        Log.d(TAG+"Key", String.valueOf(foodIdKey));
 
         total = findViewById(R.id.total);
 
@@ -121,19 +123,20 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
                 }
                 else{
                     StringBuilder foodId = null;
-                    for(int i : foodIdAndAmount.keySet()){
+                    for(int i : foodIdKey.keySet()){
                         exampleList.add(new BasketItem(foodIdAndAmount.get(i)+"x", foodIdAndName.get(i), "Rp. "+foodIdAndPrice.get(i)));
                         totalPrice = totalPrice + (foodIdAndAmount.get(i) * foodIdAndPrice.get(i));
                         keySet.add(i);
 
                         int count = foodIdAndAmount.get(i);
-                        String val = String.valueOf(i+1);
+                        String val = String.valueOf(foodIdKey.get(i));
                         foodId = new StringBuilder(val.length() * count);
                         while (count -- > 0) {
                             foodId.append(val).append(",");
                         }
                         foodId.toString();
                         foodListOrder = foodListOrder + foodId;
+                        Log.d(TAG, foodListOrder);
                     }
 
                     if(foodListOrder.length() < 1){
@@ -184,7 +187,7 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
     }
 
     private void createExampleList(){
-        for(int i : foodIdAndAmount.keySet()){
+        for(int i : foodIdKey.keySet()){
             exampleList.add(new BasketItem(foodIdAndAmount.get(i)+"x", foodIdAndName.get(i), "Rp. "+foodIdAndPrice.get(i)));
             totalPrice = totalPrice + (foodIdAndAmount.get(i) * foodIdAndPrice.get(i));
             keySet.add(i);
@@ -211,6 +214,7 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
                 totalPrice = totalPrice - (foodIdAndPrice.get(keySet.get(position)) * foodIdAndAmount.get(keySet.get(position)));
                 total.setText("Rp. "+ totalPrice);
                 exampleList.remove(position);
+                foodIdKey.remove(position);
                 foodIdAndName.remove(position);
                 foodIdAndAmount.remove(position);
                 foodIdAndPrice.remove(position);
@@ -298,6 +302,7 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
     public void onBackPressed() {
         Intent intent= new Intent(BasketActivity.this, FoodActivity.class);
         intent.putExtra("foodIdAndAmount", foodIdAndAmount);
+        intent.putExtra("foodIdKey", foodIdKey);
         intent.putExtra("foodIdAndName", foodIdAndName);
         intent.putExtra("listFood", listFood);
         intent.putExtra("sellerName", sellerName);

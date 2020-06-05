@@ -46,10 +46,12 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
     private ArrayList<FoodItem> exampleList = new ArrayList<>();
 
     private HashMap<Integer, Integer> foodIdAndAmount = new HashMap<>();
+    private HashMap<Integer, Integer> foodIdKey = new HashMap<>();
     private HashMap<Integer, String> foodIdAndName = new HashMap<>();
     private HashMap<Integer, String> foodIdAndCategory = new HashMap<>();
     private HashMap<Integer, Integer> foodIdAndPrice = new HashMap<>();
 
+    private HashMap<Integer, Integer> RxFoodIdKey = new HashMap<>();
     private HashMap<Integer, Integer> RxFoodIdAndAmount = new HashMap<>();
     private HashMap<Integer, Integer> RxFoodIdAndPrice = new HashMap<>();
     private HashMap<Integer, String> RxFoodIdAndName = new HashMap<>();
@@ -70,6 +72,12 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         int userId = sharedPreferences.getInt(userState, 0);
+
+        RxFoodIdKey = (HashMap<Integer, Integer>) getIntent().getSerializableExtra("foodIdKey");
+        if(RxFoodIdKey != null){
+            foodIdKey = RxFoodIdKey;
+        }
+        Log.d(TAG, String.valueOf(foodIdAndAmount));
 
         RxFoodIdAndAmount = (HashMap<Integer, Integer>) getIntent().getSerializableExtra("foodIdAndAmount");
         if(RxFoodIdAndAmount != null){
@@ -145,8 +153,7 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
             public void onClick(View view) {
                 Intent intent = new Intent(FoodActivity.this, BasketActivity.class);
                 intent.putExtra("foodIdAndAmount", foodIdAndAmount);
-                Log.d(TAG, String.valueOf(foodIdAndAmount));
-
+                intent.putExtra("foodIdKey", foodIdKey);
                 intent.putExtra("foodIdAndName", foodIdAndName);
                 intent.putExtra("foodIdAndCategory", foodIdAndCategory);
                 intent.putExtra("foodIdAndPrice", foodIdAndPrice);
@@ -168,6 +175,7 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
     }
 
     private void createExampleList(){
+        Log.d(TAG, String.valueOf(listFood));
         for(Food foodPtr : listFood){
             exampleList.add(new FoodItem(R.drawable.food_icon, foodPtr.getName()+"", "Rp. "+foodPtr.getPrice()));
         }
@@ -202,9 +210,13 @@ public class FoodActivity extends AppCompatActivity implements BottomSheetDialog
     @Override
     public void onButtonClicked(int text) {
         foodIdAndAmount.put(getPosition, text);
+        foodIdKey.put(getPosition, listFood.get(getPosition).getId());
         foodIdAndName.put(getPosition, listFood.get(getPosition).getName());
         foodIdAndCategory.put(getPosition, listFood.get(getPosition).getCategory());
         foodIdAndPrice.put(getPosition, listFood.get(getPosition).getPrice());
+
+        Log.d(TAG, String.valueOf(foodIdAndAmount));
+        Log.d(TAG, String.valueOf(foodIdAndName));
     }
 
     public void setTransparentStatusBarOnly(Activity activity) {

@@ -59,6 +59,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
     private HashMap<Integer, String> invoiceIdAndCode = new HashMap<Integer, String>();
     private HashMap<Integer, Integer> invoiceIdAndDiscount = new HashMap<Integer, Integer>();
     private HashMap<Integer, String> invoiceIdAndPay = new HashMap<Integer, String>();
+    private HashMap<Integer, String> invoiceIdAndSeller = new HashMap<Integer, String>();
     private HashMap<Integer, Integer> invoiceIdAndTotal = new HashMap<Integer, Integer>();
     private HashMap<String, Integer> invoiceFoodAndPrice = new HashMap<>();
 
@@ -79,6 +80,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         userId = sharedPreferences.getInt(userState, 0);
 
+        exampleList.clear();
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -122,6 +124,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
                             foodIdList.add(newFood);
                             tempFoodUniqueName.add(food.getString("name"));
                             invoiceFoodAndPrice.put(food.getString("name"), food.getInt("price"));
+                            invoiceIdAndSeller.put(invoice.getInt("id"), seller.getString("name"));
 
                             boolean tempStatus = true;
                             for(Seller sellerPtr : listSeller) {
@@ -152,13 +155,13 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
                             invoiceIdAndDiscount.put(invoice.getInt("id"), promo.getInt("discount"));
                         }
 
-
-                        for(Seller sellerPtr : listSeller){
-                            exampleList.add(listSeller.indexOf(sellerPtr), new HistoryItem(R.drawable.ic_bill, sellerPtr.getName()+"", invoice.getString("date").substring(0, 10)+""));
-                            mAdapter.notifyItemInserted(listSeller.indexOf(sellerPtr));
-                        }
-
                     }
+
+                    for(int id = 0; id < invoiceIdAndSeller.size(); id++){
+                        exampleList.add(id, new HistoryItem(R.drawable.ic_bill, invoiceIdAndSeller.get(invoiceIdAndSeller.size()-id), invoiceIdAndDate.get(invoiceIdAndSeller.size()-id).substring(0, 10)+""));
+                        mAdapter.notifyItemInserted(id);
+                    }
+
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }

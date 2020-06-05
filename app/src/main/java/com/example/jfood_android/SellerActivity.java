@@ -63,7 +63,7 @@ public class SellerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seller);
 
         refreshList();
-        createExampleList();
+        //createExampleList();
         buildExampleList();
 
         EditText editText = findViewById(R.id.edittext);
@@ -252,9 +252,8 @@ public class SellerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
-                ArrayList<Food> newFood = new ArrayList<>();
+                ArrayList<Food> newFood;
                 newFood = foodMapping.get(listSeller.get(position));
-                Log.d(TAG, String.valueOf(newFood));
                 Intent intent = new Intent(SellerActivity.this, FoodActivity.class);
                 intent.putParcelableArrayListExtra("ListFoodData", newFood);
                 intent.putExtra("sellerName", listSeller.get(position).getName());
