@@ -263,6 +263,9 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
                             if(totalPrice > promo.getInt("minPrice")){
                                 priceRequest = promo.getInt("discount");
                                 totalPrice = totalPrice - priceRequest;
+                                if(totalPrice < 0 ){
+                                    totalPrice = 0;
+                                }
                                 total.setText("Rp. "+(totalPrice));
                                 Log.d(TAG, total.getText().toString());
                             }
