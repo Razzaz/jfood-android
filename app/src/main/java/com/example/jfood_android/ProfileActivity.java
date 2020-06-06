@@ -62,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
                 editor.putBoolean(loginState, false);
                 editor.apply();
                 startActivity(new Intent(ProfileActivity.this, IntroActivity.class));
+                finish();
             }
         });
 

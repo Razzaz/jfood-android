@@ -139,7 +139,7 @@ public class BasketActivity extends AppCompatActivity implements BasketSheetDial
                         Log.d(TAG, foodListOrder);
                     }
 
-                    if(foodListOrder.length() < 1){
+                    if(foodListOrder.length() < 1 || foodIdKey == null){
                         Toast.makeText(BasketActivity.this, "Item amount can't be zero", Toast.LENGTH_SHORT).show();
                     }
                     else{

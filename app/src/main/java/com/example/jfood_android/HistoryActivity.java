@@ -53,13 +53,14 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
     private ArrayList<Integer> invoiceUniqueId = new ArrayList<>();
 
     private HashMap<Integer, ArrayList<String>> invoiceIdAndFood = new HashMap<>();
-    private HashMap<Integer, String> invoiceIdAndDate = new HashMap<>();
+    private HashMap<Integer, String> invoiceIdAndDate = new HashMap<Integer, String>();
     private HashMap<Integer, Boolean> invoiceIdAndActive = new HashMap<>();
     private HashMap<Integer, String> invoiceIdAndStatus = new HashMap<>();
     private HashMap<Integer, String> invoiceIdAndCode = new HashMap<Integer, String>();
     private HashMap<Integer, Integer> invoiceIdAndDiscount = new HashMap<Integer, Integer>();
     private HashMap<Integer, String> invoiceIdAndPay = new HashMap<Integer, String>();
     private HashMap<Integer, String> invoiceIdAndSeller = new HashMap<Integer, String>();
+    private HashMap<Integer, String> invoiceIdAndCustomer = new HashMap<Integer, String>();
     private HashMap<Integer, Integer> invoiceIdAndTotal = new HashMap<Integer, Integer>();
     private HashMap<String, Integer> invoiceFoodAndPrice = new HashMap<>();
 
@@ -89,6 +90,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
                     for (int i=0; i < jsonResponse.length(); i++) {
                         ArrayList<String> foodId = new ArrayList<>();
                         JSONObject invoice = jsonResponse.getJSONObject(i);
+                        JSONObject customer = invoice.getJSONObject("customer");
                         JSONArray foods = invoice.getJSONArray("foods");
                         Log.d(TAG, String.valueOf(foods.length()));
                         for (j = 0; j < foods.length(); j++) {
@@ -125,6 +127,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
                             tempFoodUniqueName.add(food.getString("name"));
                             invoiceFoodAndPrice.put(food.getString("name"), food.getInt("price"));
                             invoiceIdAndSeller.put(invoice.getInt("id"), seller.getString("name"));
+                            invoiceIdAndCustomer.put(invoice.getInt("id"), customer.getString("email"));
 
                             boolean tempStatus = true;
                             for(Seller sellerPtr : listSeller) {
@@ -157,9 +160,14 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
 
                     }
 
-                    for(int id = 0; id < invoiceIdAndSeller.size(); id++){
-                        exampleList.add(id, new HistoryItem(R.drawable.ic_bill, invoiceIdAndSeller.get(invoiceIdAndSeller.size()-id), invoiceIdAndDate.get(invoiceIdAndSeller.size()-id).substring(0, 10)+""));
-                        mAdapter.notifyItemInserted(id);
+                    Log.d(TAG, String.valueOf(invoiceIdAndSeller.size()));
+                    Log.d(TAG, String.valueOf(invoiceIdAndFood));
+                    Log.d(TAG, String.valueOf(invoiceUniqueId));
+
+                    for(int i = 0; i < invoiceUniqueId.size(); i++){
+                        Log.d(TAG, String.valueOf(invoiceUniqueId.get(invoiceUniqueId.size()-1-i)));
+                        exampleList.add(i, new HistoryItem(R.drawable.ic_bill, invoiceIdAndSeller.get(invoiceUniqueId.get(invoiceUniqueId.size()-1-i)), invoiceIdAndDate.get(invoiceUniqueId.get(invoiceUniqueId.size()-1-i)).substring(0, 10)+""));
+                        mAdapter.notifyItemInserted(i);
                     }
 
                 } catch (JSONException ex) {
@@ -206,7 +214,7 @@ public class HistoryActivity extends AppCompatActivity implements Serializable {
         mAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                int requestInvoiceId = invoiceUniqueId.size()+1 - invoiceUniqueId.get(position);
+                int requestInvoiceId = invoiceUniqueId.get(invoiceUniqueId.size()-1-position);
                 if(invoiceIdAndCode.get(position) == null){
                     invoiceIdAndCode.put(position, "");
                     invoiceIdAndDiscount.put(position, 0);
