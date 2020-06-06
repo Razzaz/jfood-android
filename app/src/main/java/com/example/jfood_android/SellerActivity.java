@@ -251,7 +251,6 @@ public class SellerActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new SellerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
                 ArrayList<Food> newFood;
                 newFood = foodMapping.get(listSeller.get(position));
                 Intent intent = new Intent(SellerActivity.this, FoodActivity.class);

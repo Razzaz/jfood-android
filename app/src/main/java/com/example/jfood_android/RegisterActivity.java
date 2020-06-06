@@ -6,9 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -48,9 +49,52 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String regexEmail = "^([\\w\\&\\*_~]+\\.{0,1})+@[\\w][\\w\\-]*(\\.[\\w\\-]+)+$";
+                String regexPassword = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$";
+
                 String name = etName.getText().toString();
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
+
+                if(TextUtils.isEmpty(email)){
+                    etEmail.setError("Email is Required.");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                if(TextUtils.isEmpty(name)){
+                    etName.setError("Name is Required.");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                if(!Pattern.matches(regexEmail, email)){
+                    etEmail.setError("Email not valid.");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                if(!Pattern.matches(regexPassword, password)){
+                    etPassword.setError("Password not valid.");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                if(TextUtils.isEmpty(password)){
+                    etPassword.setError("Password is Required.");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                if(password.length() < 6){
+                    etPassword.setError("Password must be > 6 characters");
+                    btnRegister.setEnabled(true);
+                    return;
+                }
+
+                else{
+                    btnRegister.setEnabled(false);
+                }
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
